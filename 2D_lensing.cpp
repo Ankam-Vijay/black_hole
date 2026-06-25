@@ -146,10 +146,10 @@ struct Ray{
     
         glDisable(GL_BLEND);
     }
-    void step(double dλ, double rs) {
+    void step(double dLamda, double rs) {
         // 1) integrate (r,φ,dr,dφ)
         if(r <= rs) return; // stop if inside the event horizon
-        rk4Step(*this, dλ, rs);
+        rk4Step(*this, dLamda, rs);
 
         // 2) convert back to cartesian x,y
         x = r * cos(phi);
@@ -188,27 +188,27 @@ void addState(const double a[4], const double b[4], double factor, double out[4]
     for (int i = 0; i < 4; i++)
         out[i] = a[i] + b[i] * factor;
 }
-void rk4Step(Ray& ray, double dλ, double rs) {
+void rk4Step(Ray& ray, double dLamda, double rs) {
     double y0[4] = { ray.r, ray.phi, ray.dr, ray.dphi };
     double k1[4], k2[4], k3[4], k4[4], temp[4];
 
     geodesicRHS(ray, k1, rs);
-    addState(y0, k1, dλ/2.0, temp);
+    addState(y0, k1, dLamda/2.0, temp);
     Ray r2 = ray; r2.r=temp[0]; r2.phi=temp[1]; r2.dr=temp[2]; r2.dphi=temp[3];
     geodesicRHS(r2, k2, rs);
 
-    addState(y0, k2, dλ/2.0, temp);
+    addState(y0, k2, dLamda/2.0, temp);
     Ray r3 = ray; r3.r=temp[0]; r3.phi=temp[1]; r3.dr=temp[2]; r3.dphi=temp[3];
     geodesicRHS(r3, k3, rs);
 
-    addState(y0, k3, dλ, temp);
+    addState(y0, k3, dLamda, temp);
     Ray r4 = ray; r4.r=temp[0]; r4.phi=temp[1]; r4.dr=temp[2]; r4.dphi=temp[3];
     geodesicRHS(r4, k4, rs);
 
-    ray.r    += (dλ/6.0)*(k1[0] + 2*k2[0] + 2*k3[0] + k4[0]);
-    ray.phi  += (dλ/6.0)*(k1[1] + 2*k2[1] + 2*k3[1] + k4[1]);
-    ray.dr   += (dλ/6.0)*(k1[2] + 2*k2[2] + 2*k3[2] + k4[2]);
-    ray.dphi += (dλ/6.0)*(k1[3] + 2*k2[3] + 2*k3[3] + k4[3]);
+    ray.r    += (dLamda/6.0)*(k1[0] + 2*k2[0] + 2*k3[0] + k4[0]);
+    ray.phi  += (dLamda/6.0)*(k1[1] + 2*k2[1] + 2*k3[1] + k4[1]);
+    ray.dr   += (dLamda/6.0)*(k1[2] + 2*k2[2] + 2*k3[2] + k4[2]);
+    ray.dphi += (dLamda/6.0)*(k1[3] + 2*k2[3] + 2*k3[3] + k4[3]);
 }
 
 
