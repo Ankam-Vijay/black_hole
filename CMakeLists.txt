@@ -14,7 +14,7 @@ find_package(OpenGL REQUIRED)
 set(DEPS glfw GLEW::GLEW glm::glm OpenGL::GL)
 
 # 2D Lensing executable
-add_executable(BlackHole2D 2D_lensing.cpp)
+# add_executable(BlackHole2D 2D_lensing.cpp)
 target_link_libraries(BlackHole2D PRIVATE ${DEPS})
 target_include_directories(BlackHole2D PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
