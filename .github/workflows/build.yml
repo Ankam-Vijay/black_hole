@@ -23,7 +23,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        C:\vcpkg\vcpkg.exe install glfw3 glew glm
+        C:\vcpkg\vcpkg.exe install
 
     - name: Configure
       run: |
